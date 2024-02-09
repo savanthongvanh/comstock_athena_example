@@ -7,7 +7,7 @@ Two assumptions are made
 1. You have the AWS CLI tools installed (https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 2. You have a profile created 
 
-Using these instructions will create the following resources in your AWS Account
+Using these instructions will create a Cloudformation stack called ${PROJECT_NAME}-infra with the following resources in your AWS Account
 1. An AWS Glue _database_ called comstock
 2. An AWS Glue _table_ called comstock_v1_metadata
 3. An AWS Glue _table_ called comstock_v1_state
