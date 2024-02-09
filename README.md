@@ -35,7 +35,7 @@ Uncomment the tables in ```cloudformation/app.yaml``` and then redeploy
 ## Step 3 Update Athena table partitions
 
 ### Console instructions
-- Go into Athena
+- Go into Athena in the AWS console in the region you have set as DEFAULT_REGION
 - Select the comstock db
 - Repair the tables by executing the command per the instructions at https://github.com/openEDI/documentation/blob/main/NREL_Building_Stock/Query_ComStock_Athena.md#establishing-partitions-on-the-time-series-table
 
@@ -46,3 +46,4 @@ MSCK REPAIR TABLE comstock_v1_state
 ## Query the tables
 You can now query the metadata and state tables per the instructions using Athena
 https://github.com/openEDI/documentation/blob/main/NREL_Building_Stock/Query_ComStock_Athena.md#running-queries-against-comstock
+
