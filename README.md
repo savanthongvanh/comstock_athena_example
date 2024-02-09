@@ -22,7 +22,7 @@ AWS_PROFILE=your aws profile name
 ```
 
 ## Step 1 Deploy the Athena Glue db
-Deploy the Glue database and tables by making sure the tables by executing
+Deploy the Glue database and tables by executing
 
 ```bash
 ./deploy.sh
