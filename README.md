@@ -3,9 +3,10 @@ This project is a bare bones example of creating a handful of resources in AWS t
 
 The instructions at the readme work fine but if you're interested in having some reusable scripts or just getting to querying faster you can follow these 3 simple steps.
 
-Two assumptions are made
-1. You have the AWS CLI tools installed (https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
-2. You have a profile created 
+Pre-requisites
+1. You're running *nix
+2. AWS CLI tools installed (https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+3. An AWS credentials profile created 
 
 Using these instructions will create a Cloudformation stack called ${PROJECT_NAME}-infra with the following resources in your AWS Account
 1. An AWS Glue _database_ called comstock
