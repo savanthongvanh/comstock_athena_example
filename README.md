@@ -17,7 +17,7 @@ Using these instructions will create a Cloudformation stack called ${PROJECT_NAM
 Update project.properties to suit your account
 ```bash
 PROJECT_NAME=comstock-athena-example
-DEFAULT_REGION=your default region
+DEFAULT_REGION=your default AWS region
 AWS_PROFILE=your aws profile name
 ```
 
