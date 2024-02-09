@@ -1,0 +1,524 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  DatabaseName:
+    Description: The name of the S3 bucket that contains your AWS logs
+    Type: String
+    Default: comstock
+
+Resources:
+  ComstockEnergyDb:
+    Type: AWS::Glue::Database
+    Properties:
+      DatabaseInput:
+        Name: !Ref DatabaseName
+        Description: Glue table for comstock energy data
+      CatalogId:
+        Ref: AWS::AccountId
+
+  # for reasons unbeknownst to me at this time the AWS::Glue:Database cannot be created in the same deploy as the AWS::Glue::Table
+  ComStockEnergyMetaTable:
+    Type: AWS::Glue::Table
+    Properties:
+      CatalogId:
+        Ref: AWS::AccountId
+      DatabaseName: !Ref DatabaseName
+      TableInput:
+        Name: comstock_v1_metadata
+        Description: athena table for comstock meta data
+        TableType: EXTERNAL_TABLE
+        Parameters: { "EXTERNAL": "TRUE" }
+        StorageDescriptor:
+          Columns:
+            - Name: applicability
+              Type: boolean
+            - Name: bldg_id
+              Type: bigint
+            - Name: climate_zone
+              Type: string
+            - Name: in.aspect_ratio
+              Type: double
+            - Name: in.building_type
+              Type: string
+            - Name: in.climate_zone
+              Type: string
+            - Name: in.code_when_built
+              Type: string
+            - Name: in.cooling_fuel
+              Type: string
+            - Name: in.current_envelope_code
+              Type: string
+            - Name: in.current_exterior_lighting_code
+              Type: string
+            - Name: in.current_hvac_code
+              Type: string
+            - Name: in.current_interior_equipment_code
+              Type: string
+            - Name: in.current_interior_lighting_code
+              Type: string
+            - Name: in.floor_height
+              Type: double
+            - Name: in.heating_fuel
+              Type: string
+            - Name: in.hvac_delivery_type
+              Type: string
+            - Name: in.hvac_system_type
+              Type: string
+            - Name: in.number_of_stories
+              Type: double
+            - Name: in.rotation
+              Type: double
+            - Name: in.sqft
+              Type: double
+            - Name: in.water_systems_fuel
+              Type: string
+            - Name: in.weather_station
+              Type: string
+            - Name: in.weekday_opening_time
+              Type: string
+            - Name: in.weekday_operating_hours
+              Type: string
+            - Name: in.weekend_opening_time
+              Type: string
+            - Name: in.weekend_operating_hours
+              Type: string
+            - Name: out.electricity.cooling.energy_consumption
+              Type: double
+            - Name: out.electricity.cooling.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.cooling.energy_savings
+              Type: double
+            - Name: out.electricity.cooling.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.exterior_lighting.energy_consumption
+              Type: double
+            - Name: out.electricity.exterior_lighting.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.exterior_lighting.energy_savings
+              Type: double
+            - Name: out.electricity.exterior_lighting.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.fans.energy_consumption
+              Type: double
+            - Name: out.electricity.fans.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.fans.energy_savings
+              Type: double
+            - Name: out.electricity.fans.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.heat_recovery.energy_consumption
+              Type: double
+            - Name: out.electricity.heat_recovery.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.heat_recovery.energy_savings
+              Type: double
+            - Name: out.electricity.heat_recovery.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.heat_rejection.energy_consumption
+              Type: double
+            - Name: out.electricity.heat_rejection.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.heat_rejection.energy_savings
+              Type: double
+            - Name: out.electricity.heat_rejection.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.heating.energy_consumption
+              Type: double
+            - Name: out.electricity.heating.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.heating.energy_savings
+              Type: double
+            - Name: out.electricity.heating.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.humidification.energy_consumption
+              Type: double
+            - Name: out.electricity.humidification.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.humidification.energy_savings
+              Type: double
+            - Name: out.electricity.humidification.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.interior_equipment.energy_consumption
+              Type: double
+            - Name: out.electricity.interior_equipment.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.interior_equipment.energy_savings
+              Type: double
+            - Name: out.electricity.interior_equipment.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.interior_lighting.energy_consumption
+              Type: double
+            - Name: out.electricity.interior_lighting.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.interior_lighting.energy_savings
+              Type: double
+            - Name: out.electricity.interior_lighting.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.peak_demand.energy_consumption
+              Type: double
+            - Name: out.electricity.peak_demand.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.peak_demand.energy_savings
+              Type: double
+            - Name: out.electricity.peak_demand.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.pumps.energy_consumption
+              Type: double
+            - Name: out.electricity.pumps.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.pumps.energy_savings
+              Type: double
+            - Name: out.electricity.pumps.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.refrigeration.energy_consumption
+              Type: double
+            - Name: out.electricity.refrigeration.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.refrigeration.energy_savings
+              Type: double
+            - Name: out.electricity.refrigeration.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.total.energy_consumption
+              Type: double
+            - Name: out.electricity.total.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.total.energy_savings
+              Type: double
+            - Name: out.electricity.total.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.water_systems.energy_consumption
+              Type: double
+            - Name: out.electricity.water_systems.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.water_systems.energy_savings
+              Type: double
+            - Name: out.electricity.water_systems.energy_savings_intensity
+              Type: double
+            - Name: out.natural_gas.cooling.energy_consumption
+              Type: double
+            - Name: out.natural_gas.cooling.energy_consumption_intensity
+              Type: double
+            - Name: out.natural_gas.cooling.energy_savings
+              Type: double
+            - Name: out.natural_gas.cooling.energy_savings_intensity
+              Type: double
+            - Name: out.natural_gas.heating.energy_consumption
+              Type: double
+            - Name: out.natural_gas.heating.energy_consumption_intensity
+              Type: double
+            - Name: out.natural_gas.heating.energy_savings
+              Type: double
+            - Name: out.natural_gas.heating.energy_savings_intensity
+              Type: double
+            - Name: out.natural_gas.interior_equipment.energy_consumption
+              Type: double
+            - Name: out.natural_gas.interior_equipment.energy_consumption_intensity
+              Type: double
+            - Name: out.natural_gas.interior_equipment.energy_savings
+              Type: double
+            - Name: out.natural_gas.interior_equipment.energy_savings_intensity
+              Type: double
+            - Name: out.natural_gas.total.energy_consumption
+              Type: double
+            - Name: out.natural_gas.total.energy_consumption_intensity
+              Type: double
+            - Name: out.natural_gas.total.energy_savings
+              Type: double
+            - Name: out.natural_gas.total.energy_savings_intensity
+              Type: double
+            - Name: out.natural_gas.water_systems.energy_consumption
+              Type: double
+            - Name: out.natural_gas.water_systems.energy_consumption_intensity
+              Type: double
+            - Name: out.natural_gas.water_systems.energy_savings
+              Type: double
+            - Name: out.natural_gas.water_systems.energy_savings_intensity
+              Type: double
+            - Name: out.other_fuel.heating.energy_consumption
+              Type: double
+            - Name: out.other_fuel.heating.energy_consumption_intensity
+              Type: double
+            - Name: out.other_fuel.heating.energy_savings
+              Type: double
+            - Name: out.other_fuel.heating.energy_savings_intensity
+              Type: double
+            - Name: out.other_fuel.interior_equipment.energy_consumption
+              Type: double
+            - Name: out.other_fuel.interior_equipment.energy_consumption_intensity
+              Type: double
+            - Name: out.other_fuel.interior_equipment.energy_savings
+              Type: double
+            - Name: out.other_fuel.interior_equipment.energy_savings_intensity
+              Type: double
+            - Name: out.other_fuel.total.energy_consumption
+              Type: double
+            - Name: out.other_fuel.total.energy_consumption_intensity
+              Type: double
+            - Name: out.other_fuel.total.energy_savings
+              Type: double
+            - Name: out.other_fuel.total.energy_savings_intensity
+              Type: double
+            - Name: out.other_fuel.water_systems.energy_consumption
+              Type: double
+            - Name: out.other_fuel.water_systems.energy_consumption_intensity
+              Type: double
+            - Name: out.other_fuel.water_systems.energy_savings
+              Type: double
+            - Name: out.other_fuel.water_systems.energy_savings_intensity
+              Type: double
+            - Name: out.site_energy.total.energy_consumption
+              Type: double
+            - Name: out.site_energy.total.energy_consumption_intensity
+              Type: double
+            - Name: out.site_energy.total.energy_savings
+              Type: double
+            - Name: out.site_energy.total.energy_savings_intensity
+              Type: double
+            - Name: state
+              Type: string
+            - Name: upgrade
+              Type: bigint
+            - Name: weight
+              Type: double
+            - Name: metadata_index
+              Type: bigint
+            - Name: in.applicable
+              Type: boolean
+            - Name: __index_level_0__
+              Type: bigint
+          Location:
+            Fn::Sub: s3://nrel-pds-building-stock/comstock/athena/2020/comstock_v1/metadata/
+          InputFormat: org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat
+          OutputFormat: org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat
+          Compressed: False
+          StoredAsSubDirectories: False
+          SerdeInfo:
+            SerializationLibrary: org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe
+            Parameters: { "serialization.format": "1" }
+          Parameters: {}
+        Retention: 0
+
+  ComStockEnergyV1State:
+    Type: AWS::Glue::Table
+    Properties:
+      CatalogId:
+        Ref: AWS::AccountId
+      DatabaseName: !Ref DatabaseName
+      TableInput:
+        Name: comstock_v1_state
+        Description: athena table for comstock states
+        TableType: EXTERNAL_TABLE
+        Parameters: { "EXTERNAL": "TRUE" }
+        PartitionKeys:
+          - Name: upgrade
+            Type: bigint
+          - Name: state
+            Type: string
+        StorageDescriptor:
+          Columns:
+            - Name: timestamp
+              Type: timestamp
+            - Name: bldg_id
+              Type: bigint
+            - Name: out.electricity.cooling.energy_consumption
+              Type: double
+            - Name: out.electricity.cooling.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.cooling.energy_savings
+              Type: double
+            - Name: out.electricity.cooling.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.exterior_lighting.energy_consumption
+              Type: double
+            - Name: out.electricity.exterior_lighting.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.exterior_lighting.energy_savings
+              Type: double
+            - Name: out.electricity.exterior_lighting.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.fans.energy_consumption
+              Type: double
+            - Name: out.electricity.fans.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.fans.energy_savings
+              Type: double
+            - Name: out.electricity.fans.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.heat_recovery.energy_consumption
+              Type: double
+            - Name: out.electricity.heat_recovery.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.heat_recovery.energy_savings
+              Type: double
+            - Name: out.electricity.heat_recovery.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.heat_rejection.energy_consumption
+              Type: double
+            - Name: out.electricity.heat_rejection.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.heat_rejection.energy_savings
+              Type: double
+            - Name: out.electricity.heat_rejection.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.heating.energy_consumption
+              Type: double
+            - Name: out.electricity.heating.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.heating.energy_savings
+              Type: double
+            - Name: out.electricity.heating.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.humidification.energy_consumption
+              Type: double
+            - Name: out.electricity.humidification.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.humidification.energy_savings
+              Type: double
+            - Name: out.electricity.humidification.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.interior_equipment.energy_consumption
+              Type: double
+            - Name: out.electricity.interior_equipment.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.interior_equipment.energy_savings
+              Type: double
+            - Name: out.electricity.interior_equipment.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.interior_lighting.energy_consumption
+              Type: double
+            - Name: out.electricity.interior_lighting.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.interior_lighting.energy_savings
+              Type: double
+            - Name: out.electricity.interior_lighting.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.peak_demand.energy_consumption
+              Type: double
+            - Name: out.electricity.peak_demand.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.peak_demand.energy_savings
+              Type: double
+            - Name: out.electricity.peak_demand.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.pumps.energy_consumption
+              Type: double
+            - Name: out.electricity.pumps.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.pumps.energy_savings
+              Type: double
+            - Name: out.electricity.pumps.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.refrigeration.energy_consumption
+              Type: double
+            - Name: out.electricity.refrigeration.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.refrigeration.energy_savings
+              Type: double
+            - Name: out.electricity.refrigeration.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.total.energy_consumption
+              Type: double
+            - Name: out.electricity.total.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.total.energy_savings
+              Type: double
+            - Name: out.electricity.total.energy_savings_intensity
+              Type: double
+            - Name: out.electricity.water_systems.energy_consumption
+              Type: double
+            - Name: out.electricity.water_systems.energy_consumption_intensity
+              Type: double
+            - Name: out.electricity.water_systems.energy_savings
+              Type: double
+            - Name: out.electricity.water_systems.energy_savings_intensity
+              Type: double
+            - Name: out.natural_gas.cooling.energy_consumption
+              Type: double
+            - Name: out.natural_gas.cooling.energy_consumption_intensity
+              Type: double
+            - Name: out.natural_gas.cooling.energy_savings
+              Type: double
+            - Name: out.natural_gas.cooling.energy_savings_intensity
+              Type: double
+            - Name: out.natural_gas.heating.energy_consumption
+              Type: double
+            - Name: out.natural_gas.heating.energy_consumption_intensity
+              Type: double
+            - Name: out.natural_gas.heating.energy_savings
+              Type: double
+            - Name: out.natural_gas.heating.energy_savings_intensity
+              Type: double
+            - Name: out.natural_gas.interior_equipment.energy_consumption
+              Type: double
+            - Name: out.natural_gas.interior_equipment.energy_consumption_intensity
+              Type: double
+            - Name: out.natural_gas.interior_equipment.energy_savings
+              Type: double
+            - Name: out.natural_gas.interior_equipment.energy_savings_intensity
+              Type: double
+            - Name: out.natural_gas.total.energy_consumption
+              Type: double
+            - Name: out.natural_gas.total.energy_consumption_intensity
+              Type: double
+            - Name: out.natural_gas.total.energy_savings
+              Type: double
+            - Name: out.natural_gas.total.energy_savings_intensity
+              Type: double
+            - Name: out.natural_gas.water_systems.energy_consumption
+              Type: double
+            - Name: out.natural_gas.water_systems.energy_consumption_intensity
+              Type: double
+            - Name: out.natural_gas.water_systems.energy_savings
+              Type: double
+            - Name: out.natural_gas.water_systems.energy_savings_intensity
+              Type: double
+            - Name: out.other_fuel.heating.energy_consumption
+              Type: double
+            - Name: out.other_fuel.heating.energy_consumption_intensity
+              Type: double
+            - Name: out.other_fuel.heating.energy_savings
+              Type: double
+            - Name: out.other_fuel.heating.energy_savings_intensity
+              Type: double
+            - Name: out.other_fuel.interior_equipment.energy_consumption
+              Type: double
+            - Name: out.other_fuel.interior_equipment.energy_consumption_intensity
+              Type: double
+            - Name: out.other_fuel.interior_equipment.energy_savings
+              Type: double
+            - Name: out.other_fuel.interior_equipment.energy_savings_intensity
+              Type: double
+            - Name: out.other_fuel.total.energy_consumption
+              Type: double
+            - Name: out.other_fuel.total.energy_consumption_intensity
+              Type: double
+            - Name: out.other_fuel.total.energy_savings
+              Type: double
+            - Name: out.other_fuel.total.energy_savings_intensity
+              Type: double
+            - Name: out.other_fuel.water_systems.energy_consumption
+              Type: double
+            - Name: out.other_fuel.water_systems.energy_consumption_intensity
+              Type: double
+            - Name: out.other_fuel.water_systems.energy_savings
+              Type: double
+            - Name: out.other_fuel.water_systems.energy_savings_intensity
+              Type: double
+            - Name: out.site_energy.total.energy_consumption
+              Type: double
+            - Name: out.site_energy.total.energy_consumption_intensity
+              Type: double
+            - Name: out.site_energy.total.energy_savings
+              Type: double
+            - Name: out.site_energy.total.energy_savings_intensity
+              Type: double
+          Location: s3://nrel-pds-building-stock/comstock/athena/2020/comstock_v1/state/
+          InputFormat: org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat
+          OutputFormat: org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat
+          Compressed: False
+          StoredAsSubDirectories: False
+          SerdeInfo:
+            SerializationLibrary: org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe
+            Parameters: { "serialization.format": "1" }
+          Parameters: {}
+        Retention: 0
