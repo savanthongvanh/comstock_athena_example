@@ -22,7 +22,7 @@ Resources:
     Properties:
       CatalogId:
         Ref: AWS::AccountId
-      DatabaseName: !Ref DatabaseName
+      DatabaseName: !Ref ComstockEnergyDb
       TableInput:
         Name: comstock_v1_metadata
         Description: athena table for comstock meta data
@@ -303,7 +303,7 @@ Resources:
     Properties:
       CatalogId:
         Ref: AWS::AccountId
-      DatabaseName: !Ref DatabaseName
+      DatabaseName: !Ref ComstockEnergyDb
       TableInput:
         Name: comstock_v1_state
         Description: athena table for comstock states
