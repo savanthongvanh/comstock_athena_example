@@ -20,28 +20,21 @@ DEFAULT_REGION=your default region
 AWS_PROFILE=your aws profile name
 ```
 
-## Failed deployments
-In case of failed deployments your can use ```deletestack.sh``` script to delete the failed stack before trying to redeploy again.  Very simply
+## Step 1 Deploy the Athena Glue db
+Deploy the Glue database and tables by making sure the tables by executing
+
+```bash
+./deploy.sh
+``````
+
+### Failed deployments
+If for some reason a deployment fails you can use ```deletestack.sh``` script to delete the failed stack before trying to redeploy again.  Very simply
 
 ```bash
 ./deletestack.sh
 ```
 
-## Step 1 Deploy the Athena Glue db
-Deploy the glue table by making sure the tables are commented out of ```cloudformation/app.yaml``` and executing
-
-```bash
-./deploy.sh
-```
-
-## Step 2 Deploy the tables
-Uncomment the tables in ```cloudformation/app.yaml``` and then redeploy
-
-```bash
-./deploy.sh
-```
-
-## Step 3 Update Athena table partitions
+## Step 2 Update Athena table partitions
 
 ### Console instructions
 - Go into Athena in the AWS console in the region you have set as DEFAULT_REGION
