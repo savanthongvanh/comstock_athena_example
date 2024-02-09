@@ -47,3 +47,4 @@ MSCK REPAIR TABLE comstock_v1_state
 You can now query the metadata and state tables per the instructions using Athena
 https://github.com/openEDI/documentation/blob/main/NREL_Building_Stock/Query_ComStock_Athena.md#running-queries-against-comstock
 
+![](finished_view.png)
